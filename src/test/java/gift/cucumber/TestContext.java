@@ -1,9 +1,5 @@
 package gift.cucumber;
 
-import gift.model.Category;
-import gift.model.Member;
-import gift.model.Option;
-import gift.model.Product;
 import io.cucumber.spring.ScenarioScope;
 import io.restassured.response.Response;
 import org.springframework.stereotype.Component;
@@ -13,11 +9,11 @@ import org.springframework.stereotype.Component;
 public class TestContext {
 
     private Response lastResponse;
-    private Category category;
-    private Product product;
-    private Option option;
-    private Member sender;
-    private Member receiver;
+    private Long categoryId;
+    private Long productId;
+    private Long optionId;
+    private Long senderId;
+    private Long receiverId;
 
     public Response getLastResponse() {
         return lastResponse;
@@ -27,43 +23,43 @@ public class TestContext {
         this.lastResponse = lastResponse;
     }
 
-    public Category getCategory() {
-        return category;
+    public Long getCategoryId() {
+        return categoryId;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
     }
 
-    public Product getProduct() {
-        return product;
+    public Long getProductId() {
+        return productId;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
+    public void setProductId(Long productId) {
+        this.productId = productId;
     }
 
-    public Option getOption() {
-        return option;
+    public Long getOptionId() {
+        return optionId;
     }
 
-    public void setOption(Option option) {
-        this.option = option;
+    public void setOptionId(Long optionId) {
+        this.optionId = optionId;
     }
 
-    public Member getSender() {
-        return sender;
+    public Long getSenderId() {
+        return senderId;
     }
 
-    public void setSender(Member sender) {
-        this.sender = sender;
+    public void setSenderId(Long senderId) {
+        this.senderId = senderId;
     }
 
-    public Member getReceiver() {
-        return receiver;
+    public Long getReceiverId() {
+        return receiverId;
     }
 
-    public void setReceiver(Member receiver) {
-        this.receiver = receiver;
+    public void setReceiverId(Long receiverId) {
+        this.receiverId = receiverId;
     }
 }

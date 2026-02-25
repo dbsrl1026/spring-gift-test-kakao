@@ -2,20 +2,19 @@ package gift.cucumber;
 
 import io.cucumber.spring.CucumberContextConfiguration;
 import io.restassured.RestAssured;
+import jakarta.annotation.PostConstruct;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.test.context.ActiveProfiles;
 
 @CucumberContextConfiguration
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ActiveProfiles("cucumber")
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
+@ActiveProfiles("docker")
 public class CucumberSpringConfiguration {
 
-    @LocalServerPort
-    private int port;
-
-    @jakarta.annotation.PostConstruct
+    @PostConstruct
     public void setUp() {
-        RestAssured.port = port;
+        // Docker 컨테이너의 앱에 요청
+        RestAssured.baseURI = "http://localhost";
+        RestAssured.port = 28080;
     }
 }
