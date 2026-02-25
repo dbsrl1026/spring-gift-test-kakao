@@ -43,21 +43,34 @@ def dockerSocket = System.getenv('DOCKER_HOST') ?:
         ? "unix://${System.getProperty('user.home')}/.colima/docker.sock"
         : "unix:///var/run/docker.sock"
 
-// PostgreSQL 컨테이너 시작
-tasks.register('startPostgres') {
-	description = 'Start PostgreSQL container'
+// Docker 이미지 빌드
+tasks.register('dockerBuild') {
+	description = 'Build Docker image'
 	group = 'docker'
 	doLast {
 		exec {
 			environment 'DOCKER_HOST', dockerSocket
-			commandLine 'docker', 'compose', 'up', '-d', '--wait'
+			commandLine 'docker', 'compose', 'build'
 		}
 	}
 }
 
-// PostgreSQL 컨테이너 중지
-tasks.register('stopPostgres') {
-	description = 'Stop PostgreSQL container'
+// Docker 컨테이너 시작 (App + DB)
+tasks.register('dockerUp') {
+	description = 'Start all Docker containers'
+	group = 'docker'
+	dependsOn 'bootJar'
+	doLast {
+		exec {
+			environment 'DOCKER_HOST', dockerSocket
+			commandLine 'docker', 'compose', 'up', '-d', '--build', '--wait'
+		}
+	}
+}
+
+// Docker 컨테이너 중지
+tasks.register('dockerDown') {
+	description = 'Stop all Docker containers'
 	group = 'docker'
 	doLast {
 		exec {
@@ -67,9 +80,9 @@ tasks.register('stopPostgres') {
 	}
 }
 
-// Cucumber 테스트 (PostgreSQL 사용)
+// Cucumber 테스트 (Docker 환경)
 tasks.register('cucumberTest', Test) {
-	description = 'Run Cucumber tests with PostgreSQL'
+	description = 'Run Cucumber tests with Docker'
 	group = 'verification'
 
 	useJUnitPlatform()
@@ -77,6 +90,6 @@ tasks.register('cucumberTest', Test) {
 		includeTestsMatching 'gift.cucumber.*'
 	}
 
-	dependsOn 'startPostgres'
-	finalizedBy 'stopPostgres'
+	dependsOn 'dockerUp'
+	finalizedBy 'dockerDown'
 }
