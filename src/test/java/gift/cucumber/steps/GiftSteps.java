@@ -17,11 +17,11 @@ public class GiftSteps {
     public void 선물을_보내면(int quantity) {
         Response response = RestAssured.given()
                 .contentType(ContentType.JSON)
-                .header("Member-Id", context.getSender().getId())
+                .header("Member-Id", context.getSenderId())
                 .body(Map.of(
-                        "optionId", context.getOption().getId(),
+                        "optionId", context.getOptionId(),
                         "quantity", quantity,
-                        "receiverId", context.getReceiver().getId(),
+                        "receiverId", context.getReceiverId(),
                         "message", "선물입니다"
                 ))
                 .post("/api/gifts");
@@ -32,11 +32,11 @@ public class GiftSteps {
     public void 존재하지_않는_옵션_ID로_선물을_보내면() {
         Response response = RestAssured.given()
                 .contentType(ContentType.JSON)
-                .header("Member-Id", context.getSender().getId())
+                .header("Member-Id", context.getSenderId())
                 .body(Map.of(
                         "optionId", 999999L,
                         "quantity", 1,
-                        "receiverId", context.getReceiver().getId(),
+                        "receiverId", context.getReceiverId(),
                         "message", "선물입니다"
                 ))
                 .post("/api/gifts");
@@ -47,10 +47,10 @@ public class GiftSteps {
     public void 옵션_ID_없이_선물을_보내면() {
         Response response = RestAssured.given()
                 .contentType(ContentType.JSON)
-                .header("Member-Id", context.getSender().getId())
+                .header("Member-Id", context.getSenderId())
                 .body(Map.of(
                         "quantity", 1,
-                        "receiverId", context.getReceiver().getId(),
+                        "receiverId", context.getReceiverId(),
                         "message", "선물입니다"
                 ))
                 .post("/api/gifts");
@@ -61,9 +61,9 @@ public class GiftSteps {
     public void 존재하지_않는_수신자에게_선물을_보내면() {
         Response response = RestAssured.given()
                 .contentType(ContentType.JSON)
-                .header("Member-Id", context.getSender().getId())
+                .header("Member-Id", context.getSenderId())
                 .body(Map.of(
-                        "optionId", context.getOption().getId(),
+                        "optionId", context.getOptionId(),
                         "quantity", 1,
                         "receiverId", 999999L,
                         "message", "선물입니다"
@@ -76,9 +76,9 @@ public class GiftSteps {
     public void 수신자_ID_없이_선물을_보내면() {
         Response response = RestAssured.given()
                 .contentType(ContentType.JSON)
-                .header("Member-Id", context.getSender().getId())
+                .header("Member-Id", context.getSenderId())
                 .body(Map.of(
-                        "optionId", context.getOption().getId(),
+                        "optionId", context.getOptionId(),
                         "quantity", 1,
                         "message", "선물입니다"
                 ))
@@ -91,9 +91,9 @@ public class GiftSteps {
         Response response = RestAssured.given()
                 .contentType(ContentType.JSON)
                 .body(Map.of(
-                        "optionId", context.getOption().getId(),
+                        "optionId", context.getOptionId(),
                         "quantity", 1,
-                        "receiverId", context.getReceiver().getId(),
+                        "receiverId", context.getReceiverId(),
                         "message", "선물입니다"
                 ))
                 .post("/api/gifts");
@@ -106,9 +106,9 @@ public class GiftSteps {
                 .contentType(ContentType.JSON)
                 .header("Member-Id", 999999L)
                 .body(Map.of(
-                        "optionId", context.getOption().getId(),
+                        "optionId", context.getOptionId(),
                         "quantity", 1,
-                        "receiverId", context.getReceiver().getId(),
+                        "receiverId", context.getReceiverId(),
                         "message", "선물입니다"
                 ))
                 .post("/api/gifts");

@@ -24,7 +24,7 @@ public class ProductSteps {
                         "name", name,
                         "price", price,
                         "imageUrl", imageUrl,
-                        "categoryId", context.getCategory().getId()
+                        "categoryId", context.getCategoryId()
                 ))
                 .post("/api/products");
         context.setLastResponse(response);
@@ -72,7 +72,7 @@ public class ProductSteps {
                         "name", "음수 가격 상품",
                         "price", price,
                         "imageUrl", "https://example.com/negative.jpg",
-                        "categoryId", context.getCategory().getId()
+                        "categoryId", context.getCategoryId()
                 ))
                 .post("/api/products");
         context.setLastResponse(response);
